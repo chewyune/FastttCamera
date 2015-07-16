@@ -544,8 +544,13 @@
 
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              
-             UIImage *image = [UIImage imageWithData:imageData];
-             
+            //  UIImage *image = [UIImage imageWithData:imageData];
+             NSArray *pathArr = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+             NSString *path = [[pathArr objectAtIndex:0]
+                                   stringByAppendingPathComponent:@"tempImg.data"];
+             [imageData writeToFile:path atomically:YES];
+                 
+             UIImage *image = [UIImage imageWithContentsOfFile:path];
              [self _processCameraPhoto:image needsPreviewRotation:needsPreviewRotation previewOrientation:previewOrientation];
          });
      }];
